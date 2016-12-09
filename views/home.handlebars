@@ -1,0 +1,45 @@
+<script>
+var socket = io.connect();
+    $(document).ready(function () {
+        $("[name='my-checkbox']").bootstrapSwitch();
+    });
+    socket.on('update', function(data){
+      console.log('Changefeed recieved for '+data.name);
+      location.reload();
+    });
+</script>
+
+<div align="center">
+<div class="page-header">
+  <h1>All devices<small> dashboard</small></h1>
+</div>
+{{#each data}}
+<div class="container">
+  <div class="well"><b>{{this.name}}</b> last updated at {{this.createdAt}}</div>
+</div>
+<div class="col-md-3"></div>
+<div class="col-md-3">
+  <div class="panel panel-success">
+    <div class="panel-heading">Sensors</div>
+    <div class="panel-body">
+{{#each sensors}}
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">{{@key}}</span>
+        <input type="text" class="form-control" value={{this}} aria-describedby="basic-addon1" readonly>
+      </div>
+      <br>
+{{/each}}
+      </div>
+     </div>
+    </div>
+<div class="col-md-3"><div class="panel panel-warning">
+  <div class="panel-heading">Actions</div>
+  <div class="panel-body">
+    <input type="checkbox" name="my-checkbox" data-on-color="success" data-off-color="warning" data-label-text="Red LED" 	data-animate="false" data-indeterminate="true">
+
+
+  </div>
+</div>
+
+</div>
+{{/each}}
